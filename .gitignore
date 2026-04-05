@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor / backup
+*~
+*.swp
+*.swo
+
+# Local env / secrets (if ever added under skills)
+.env
+.env.*
+!.env.example

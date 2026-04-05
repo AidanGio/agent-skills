@@ -11,7 +11,9 @@ Converts existing PRDs to the prd.json format that Ralph uses for autonomous exe
 
 ## The Job
 
-Take a PRD (markdown file or text) and convert it to `prd.json` in your ralph directory.
+Take a PRD (markdown file or text) and convert it to **`ralph/prd.json`** at the **root of the current directory** (the workspace or project you are working in—not inside `.agents` or other nested tool folders unless that is explicitly the project root).
+
+Before writing a new `prd.json`, follow **[Archiving before a new PRD](#archiving-before-a-new-prd)** so prior runs are preserved.
 
 ---
 
@@ -229,26 +231,36 @@ Add ability to mark tasks with different statuses.
 
 ---
 
-## Archiving Previous Runs
+## Archiving before a new PRD
 
-**Before writing a new prd.json, check if there is an existing one from a different feature:**
+**Paths (relative to project root):**
 
-1. Read the current `prd.json` if it exists
-2. Check if `branchName` differs from the new feature's branch name
-3. If different AND `progress.txt` has content beyond the header:
-   - Create archive folder: `archive/YYYY-MM-DD-feature-name/`
-   - Copy current `prd.json` and `progress.txt` to archive
-   - Reset `progress.txt` with fresh header
+- New PRD file: `ralph/prd.json`
+- Progress file (when Ralph uses it): `ralph/progress.txt`
 
-**The ralph.sh script handles this automatically** when you run it, but if you are manually updating prd.json between runs, archive first.
+**Before writing or overwriting `ralph/prd.json`:**
+
+1. Ensure the `ralph/` directory exists (create it if needed).
+2. If **`ralph/prd.json`** already exists **or** **`ralph/progress.txt`** exists, archive whatever is present:
+   - Create a folder: `ralph/archive/YYYY-MM-DD_HHMMSS_<short-slug>/`
+     - Use the **new** feature’s kebab-case name (from the incoming PRD or planned `branchName`) for `<short-slug>`, or `previous-run` if unknown.
+     - `YYYY-MM-DD_HHMMSS` is local time when the archive is created (ensures unique folders if you regenerate the same day).
+   - If `ralph/prd.json` exists: **move** it into that folder as `prd.json` (not copy-only, so the old file no longer sits beside the new one).
+   - If `ralph/progress.txt` exists: **move** it into that folder as `progress.txt`.
+3. Write the new `prd.json` to **`ralph/prd.json`**.
+
+Do **not** skip archiving because `branchName` matches a prior run; any existing `ralph/prd.json` is always archived before replacement.
+
+**Note:** `ralph.sh` may still perform its own housekeeping when you run it; when you create or refresh `prd.json` via this skill, you still perform the steps above so files under `ralph/` stay consistent.
 
 ---
 
 ## Checklist Before Saving
 
-Before writing prd.json, verify:
+Before writing `ralph/prd.json`, verify:
 
-- [ ] **Previous run archived** (if prd.json exists with different branchName, archive it first)
+- [ ] **Existing `ralph/prd.json` archived** (move into `ralph/archive/.../` before overwrite)
+- [ ] **Existing `ralph/progress.txt` archived** if it was present (same archive folder)
 - [ ] Each story is completable in one iteration (small enough)
 - [ ] Stories are ordered by dependency (schema to backend to UI)
 - [ ] Every story has "Typecheck/lint passes" as criterion
