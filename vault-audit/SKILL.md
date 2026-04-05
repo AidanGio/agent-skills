@@ -57,6 +57,18 @@ Follow this order unless the user asks for a narrower review:
 10. Check `raw/` for files outside `raw/Indexed/` that appear not to have been compiled yet.
 11. Summarize the highest-value fixes. If the fix is mechanical and low risk, apply it directly.
 
+## Git workflow
+
+When the vault is a git repository:
+
+1. Check `git status --short` before making changes.
+2. If the repo is already dirty, review the pending changes, stage them, commit them as a pre-audit checkpoint, and `git push origin main` before continuing.
+3. After the repo is clean locally, run `git pull --rebase origin main` so the audit starts from the latest remote state.
+4. Use `git diff` and `git diff -- <path>` while auditing to inspect exactly what changed.
+5. If you made file changes, stage only the touched files, commit with a concise audit-specific message, and `git push origin main`.
+6. If nothing changed, do not create an empty commit.
+7. Never force push or rewrite history from an automated audit run.
+
 ## What counts as a finding
 
 Report findings when they affect retrieval quality, maintenance quality, or trustworthiness.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily Plan"
+  short_description: "Shape focused daily notes and priorities"
+  default_prompt: "Use $daily-plan to turn my backlog and recent carryover into a realistic plan for today."

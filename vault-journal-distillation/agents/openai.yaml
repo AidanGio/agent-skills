@@ -1,0 +1,4 @@
+interface:
+  display_name: "Journal Distillation"
+  short_description: "Distill daily notes into patterns and insights"
+  default_prompt: "Use $journal-distillation to summarize my recent daily notes into patterns, follow-ups, and durable insights."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "End of Day Cleanup"
+  short_description: "Close daily notes and move leftovers cleanly"
+  default_prompt: "Use $end-of-day-cleanup to close today's note and move unfinished work cleanly."

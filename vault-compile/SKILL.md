@@ -22,11 +22,12 @@ Use it when the user asks to compile, ingest, process `raw/`, update `wiki/`, or
 
 - Read the raw source before deciding where it belongs.
 - Treat only files outside `raw/Indexed/` as unprocessed inbox material.
-- Prefer concise bullet-heavy articles over long prose.
+- Keep articles concise, but match depth to the note type rather than forcing every page into the same short shape.
 - Every wiki article must contain a `## Key Takeaways` section.
 - Always add `[[wiki links]]` to related concepts across topics when relevant.
 - If a raw source spans multiple topics, create or update articles in both places and cross-link them.
 - Keep the wiki navigable through indexes first. Do not default to heavier retrieval machinery.
+- Do not compress away distinctions, mechanisms, tradeoffs, or concrete examples that would matter in a future query.
 - When answering questions from this vault, navigate in this order:
   1. `wiki/_master-index.md`
   2. relevant topic `_index.md`
@@ -43,6 +44,7 @@ Follow this sequence unless the user asks for a narrower edit:
 5. Create or update one or more wiki articles with:
    - short `## Summary`
    - `## Key Takeaways`
+   - one or more optional explanatory sections when the source warrants them, such as `## Architecture`, `## Workflow`, `## Tradeoffs`, `## Decision Criteria`, or `## Open Questions`
    - `## Related Concepts`
    - `## Source`
 6. Update the topic `_index.md` with a one-line description for each article in that topic.
@@ -50,6 +52,18 @@ Follow this sequence unless the user asks for a narrower edit:
 8. Add cross-links between related articles using `[[wiki links]]`.
 9. After the compile succeeds, move each processed source file into `raw/Indexed/`, preserving the filename unless a collision requires a disambiguating rename.
 10. Check for duplication, broken structure, or missing navigation files before finishing.
+
+## Git workflow
+
+When the vault is a git repository:
+
+1. Check `git status --short` before compiling.
+2. If the repo is already dirty, review the pending changes, stage them, commit them as a pre-compile checkpoint, and `git push origin main` before continuing.
+3. After the repo is clean locally, run `git pull --rebase origin main` so new raw files and wiki changes are present locally.
+4. Use `git diff` and `git status` during the run to review touched files and confirm the compile scope stayed tight.
+5. If the compile changed files, stage only the files involved in the compile, commit with a concise compile-specific message, and `git push origin main`.
+6. If nothing changed, do not create an empty commit.
+7. Never force push or rewrite history from an automated compile run.
 
 ## Topic selection heuristics
 
@@ -60,7 +74,14 @@ Follow this sequence unless the user asks for a narrower edit:
 
 ## Article shape
 
-Use concise markdown. A typical article should look like this:
+Use concise markdown, but vary depth by note type.
+
+- Atomic reference notes can stay around `100-200` words.
+- Concept, comparison, or framework notes should usually land around `250-500` words.
+- Strategy or decision notes should usually include at least one extra explanatory section beyond `Summary` and `Key Takeaways`.
+- Prefer bullets by default, but use a short prose paragraph when it preserves meaning better than fragmented bullets.
+
+A typical article should look like this:
 
 ```md
 # Title
@@ -72,6 +93,10 @@ Use concise markdown. A typical article should look like this:
 ## Key Takeaways
 
 - Durable points worth preserving for future queries.
+
+## Architecture
+
+- Optional section for concept-heavy notes.
 
 ## Related Concepts
 
@@ -109,7 +134,7 @@ Use concise markdown. A typical article should look like this:
 - Before creating a new article, search the topic folder for overlapping concepts.
 - If the concept already exists, update the existing page instead of creating a near-duplicate.
 - If two files overlap heavily but serve different purposes, make the distinction explicit in their summaries and cross-links.
-- Keep sources traceable in the `## Source` section. After compile, reference the archived path in `raw/Indexed/` when that is the file's final location.
+- Keep sources traceable in the `## Source` section. After compile, reference the exact archived path in `raw/Indexed/` when that is the file's final location.
 
 ## Audit pass after compile
 

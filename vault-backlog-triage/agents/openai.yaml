@@ -1,0 +1,4 @@
+interface:
+  display_name: "Backlog Triage"
+  short_description: "Reprioritize backlog items and flag stale work"
+  default_prompt: "Use $backlog-triage to clean up Daily/backlog.md and identify stale, vague, or near-term work."
