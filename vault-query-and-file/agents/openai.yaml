@@ -1,0 +1,7 @@
+interface:
+  display_name: "Vault Query And File"
+  short_description: "Answer from wiki and file results"
+  default_prompt: "Use $vault-query-and-file to answer from the Obsidian wiki and file any durable results into wiki/ or output/."
+
+policy:
+  allow_implicit_invocation: true

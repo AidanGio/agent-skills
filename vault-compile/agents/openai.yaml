@@ -1,0 +1,7 @@
+interface:
+  display_name: "Vault Compile"
+  short_description: "Compile raw notes into wiki pages"
+  default_prompt: "Use $vault-compile to process new raw notes into the Obsidian wiki and update the topic indexes."
+
+policy:
+  allow_implicit_invocation: true

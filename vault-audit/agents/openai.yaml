@@ -1,0 +1,7 @@
+interface:
+  display_name: "Vault Audit"
+  short_description: "Audit wiki structure and coverage"
+  default_prompt: "Use $vault-audit to review the Obsidian wiki for structural issues, weak links, duplicate concepts, and compile backlog."
+
+policy:
+  allow_implicit_invocation: true
